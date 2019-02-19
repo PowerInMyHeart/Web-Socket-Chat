@@ -1,0 +1,57 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+	<head>
+		<meta charset="utf-8">
+		<title></title>
+		<style media="screen">
+				body{
+							display: flex;
+							justify-content: center;
+							align-items: center;
+				}
+
+
+				#field, #chat{
+						width: 100px;
+						box-sizing: border-box;
+				}
+
+
+				#field{
+
+				}
+
+				#chat{
+						width: 80px;
+						height: 100px;
+						resize: none;
+						
+				}
+		</style>
+	</head>
+	<body>
+		<input type="text" id="field">
+		<textarea id="chat"></textarea>
+		<script src script.js></script>
+		<script>
+					var field = document.getElementById('field');
+					var chat = document.getElementById('chat');
+					var ws = new WebSocket("ws://localhost:591/")
+
+
+					ws.onmessage = function(message) {
+						chat.value = message.data + "\n" + chat.value;
+					};
+
+
+					ws.onopen = function () {
+						field.addEventListener("keydown", function (event) {
+							if(event.which == 13){
+									ws.send(field.value);
+									field.value = "";
+							};
+						});
+					};
+		</script>
+	</body>
+</html>
